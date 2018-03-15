@@ -930,6 +930,13 @@ public abstract class AbstractConnectionManager implements ConnectionManager
       catch (Throwable t)
       {
          disconnectManagedConnection(cl);
+         log.error(
+        		 String.format(
+        				 "Pool connection problem occurred, destroying connection: %s pool statistics: %s",
+        				 cl, cl.getPool().getStatistics()
+				 )
+		 );
+         cl.getManagedConnection().destroy();         
          throw new ResourceException(bundle.uncheckedThrowableInManagedConnectionReconnected(cl), t);
       }
    }
